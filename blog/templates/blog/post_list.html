@@ -1,6 +1,9 @@
-{% extends 'blog/base.html' %} {% block title %}Blog Posts{% endblock %} {%
-block content %} {% for post in posts %}
+{% extends 'blog/base.html' %} 
+{% block title %}Blog Posts{% endblock %} 
+{%block content %} 
+{% for post in posts %}
 <h2><a href="{{ post.slug }}">{{ post.title }}</a></h2>
 <p>{{ post.date }} - {{ post.tags }}</p>
 <p>{{ post.summary }}</p>
-{% endfor %} {% endblock %}
+{% endfor %} 
+{% endblock %}
