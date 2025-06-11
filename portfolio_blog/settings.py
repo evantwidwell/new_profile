@@ -35,11 +35,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DJANGO_DB_NAME', 'postgres'),
-        'USER': os.getenv('DJANGO_DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DJANGO_DB_PASSWORD', 'postgres'),
-        'HOST': os.getenv('DJANGO_DB_HOST', 'localhost'),
-        'PORT': os.getenv('DJANGO_DB_PORT', '5432'),
+        'NAME': os.getenv('POSTGRES_DB', 'postgres'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
+        'HOST': os.getenv('PGHOST', 'localhost'),
+        'PORT': os.getenv('PGPORT', '5432'),
     }
 }
 TEMPLATES = [
