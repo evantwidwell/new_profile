@@ -1,10 +1,16 @@
 from django.shortcuts import render, get_object_or_404
+from django.conf import settings
 from .models import Post
 
 
 def post_list(request):
-    posts = Post.objects.order_by('-date')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    try:
+        posts = Post.objects.order_by('-date')
+        return render(request, 'blog/post_list.html', {'posts': posts})
+    except Exception as e:
+        if settings.DEBUG:
+            raise e
+        return render(request, 'blog/post_list.html', {'posts': [], 'error': 'Unable to load posts'})
 
 
 def post_detail(request, slug):
