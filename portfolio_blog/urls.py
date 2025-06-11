@@ -8,5 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', blog_views.post_list, name='home'),
     path('<slug:slug>/', blog_views.post_detail, name='post_detail'),
+    path('testing/', blog_views.testing, name='testing'),
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicon.ico')), name='favicon'),
 ]
