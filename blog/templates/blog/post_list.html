@@ -1,7 +1,11 @@
-{% extends 'blog/base.html' %} {% block title %}Blog Posts{% endblock %} {%
+{% extends "blog/base.html" %} {% block title %}Blog Posts{% endblock %} {%
 block content %}
 <div class="post-list">
-  {% for post in posts %}
+  {% if error %}
+  <div class="error">{{ error }}</div>
+  {% endif %} {% if message %}
+  <div class="message">{{ message }}</div>
+  {% endif %} {% for post in posts %}
   <article class="post-item">
     <h2><a href="{{ post.slug }}">{{ post.title }}</a></h2>
     <div class="post-meta">{{ post.date }} | {{ post.tags }}</div>
