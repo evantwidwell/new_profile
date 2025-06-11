@@ -14,3 +14,7 @@ def post_detail(request, slug):
 
 def testing(request):
     return render(request, 'blog/testing.html')
+
+
+def testing2(request):
+    return render(request, 'blog/testing2.html')
