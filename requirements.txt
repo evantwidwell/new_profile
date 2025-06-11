@@ -4,3 +4,4 @@ python-frontmatter
 gunicorn
 psycopg2-binary
 whitenoise
+psycopg2==2.9.9
