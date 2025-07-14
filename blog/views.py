@@ -25,3 +25,7 @@ def testing3(request):
 
 def about(request):
     return render(request, 'blog/about.html')
+
+
+def projects(request):
+    return render(request, 'blog/projects.html')

@@ -1,0 +1,348 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Projects - Evan Twidwell{% endblock %}
+
+{% block content %}
+<div class="projects-page">
+    <h1>My Projects</h1>
+    
+    <section class="intro">
+        <p>
+            Here are some of the projects I've worked on that showcase my skills and experience as a software engineer. 
+            Each project demonstrates different aspects of web development, from backend architecture to frontend design.
+        </p>
+    </section>
+
+    <section class="projects">
+        <div class="project-card">
+            <h2>Portfolio Blog</h2>
+            <p class="project-meta">Django • Python • PostgreSQL • Railway</p>
+            <p class="project-description">
+                A personal blog and portfolio website built with Django. Features markdown support for blog posts, 
+                a professional dark theme, and responsive design. Deployed on Railway with custom domain support.
+            </p>
+            <div class="project-features">
+                <h3>Key Features:</h3>
+                <ul>
+                    <li>Markdown content management</li>
+                    <li>Professional GitHub-inspired design</li>
+                    <li>Responsive layout</li>
+                    <li>PostgreSQL database</li>
+                    <li>Docker containerization</li>
+                    <li>Automated deployment</li>
+                </ul>
+            </div>
+            <div class="project-links">
+                <a href="https://github.com/evantwidwell/new_profile" target="_blank" class="project-link">View Code</a>
+                <a href="/" class="project-link">Live Demo</a>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <h2>Task Management System</h2>
+            <p class="project-meta">React • Node.js • Express • MongoDB</p>
+            <p class="project-description">
+                A full-stack web application for team collaboration and project management. Built with React frontend 
+                and Node.js backend, featuring real-time updates and user authentication.
+            </p>
+            <div class="project-features">
+                <h3>Key Features:</h3>
+                <ul>
+                    <li>Real-time collaboration</li>
+                    <li>User authentication & authorization</li>
+                    <li>Task assignment and tracking</li>
+                    <li>Project timeline visualization</li>
+                    <li>Team member management</li>
+                    <li>Email notifications</li>
+                </ul>
+            </div>
+            <div class="project-links">
+                <a href="#" class="project-link">View Code</a>
+                <a href="#" class="project-link">Live Demo</a>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <h2>E-commerce API</h2>
+            <p class="project-meta">Django REST Framework • PostgreSQL • Redis</p>
+            <p class="project-description">
+                A robust REST API for an e-commerce platform with inventory management, order processing, 
+                and payment integration. Features comprehensive testing and API documentation.
+            </p>
+            <div class="project-features">
+                <h3>Key Features:</h3>
+                <ul>
+                    <li>RESTful API design</li>
+                    <li>JWT authentication</li>
+                    <li>Product catalog management</li>
+                    <li>Order processing system</li>
+                    <li>Payment gateway integration</li>
+                    <li>Comprehensive test coverage</li>
+                </ul>
+            </div>
+            <div class="project-links">
+                <a href="#" class="project-link">View Code</a>
+                <a href="#" class="project-link">API Docs</a>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <h2>Data Analytics Dashboard</h2>
+            <p class="project-meta">Python • FastAPI • React • Chart.js</p>
+            <p class="project-description">
+                An interactive dashboard for visualizing business metrics and KPIs. Built with FastAPI backend 
+                for data processing and React frontend for interactive visualizations.
+            </p>
+            <div class="project-features">
+                <h3>Key Features:</h3>
+                <ul>
+                    <li>Interactive data visualizations</li>
+                    <li>Real-time data updates</li>
+                    <li>Custom reporting tools</li>
+                    <li>Export functionality</li>
+                    <li>Role-based access control</li>
+                    <li>Mobile-responsive design</li>
+                </ul>
+            </div>
+            <div class="project-links">
+                <a href="#" class="project-link">View Code</a>
+                <a href="#" class="project-link">Live Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-stack">
+        <h2>Technologies I Work With</h2>
+        <div class="tech-grid">
+            <div class="tech-category">
+                <h3>Backend</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Django</span>
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">Express</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h3>Frontend</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">HTML/CSS</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h3>Database</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">MongoDB</span>
+                    <span class="tech-tag">Redis</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h3>DevOps</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">AWS</span>
+                    <span class="tech-tag">Railway</span>
+                    <span class="tech-tag">Git</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    .projects-page {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .projects-page h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 1rem;
+    }
+
+    .intro {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .intro p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        max-width: 700px;
+        margin: 0 auto;
+        color: var(--text-muted);
+    }
+
+    .projects {
+        display: grid;
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .project-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        border-color: var(--link-color);
+    }
+
+    .project-card h2 {
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+        border-bottom: none;
+    }
+
+    .project-meta {
+        color: var(--link-color);
+        font-weight: 500;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .project-description {
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .project-features h3 {
+        color: var(--text-color);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        border-bottom: none;
+    }
+
+    .project-features ul {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .project-features li {
+        padding: 0.25rem 0;
+        color: var(--text-muted);
+        position: relative;
+        padding-left: 1rem;
+    }
+
+    .project-features li:before {
+        content: "→";
+        color: var(--link-color);
+        position: absolute;
+        left: 0;
+    }
+
+    .project-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .project-link {
+        padding: 0.5rem 1rem;
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        color: var(--link-color);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+
+    .project-link:hover {
+        background-color: var(--link-color);
+        color: var(--bg-color);
+        transform: translateY(-1px);
+    }
+
+    .tech-stack {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .tech-stack h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 1.8rem;
+    }
+
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .tech-category {
+        background-color: var(--card-bg);
+        padding: 1.5rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+    }
+
+    .tech-category h3 {
+        color: var(--text-color);
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+    }
+
+    .tech-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .tech-tag {
+        background-color: var(--bg-color);
+        color: var(--link-color);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid var(--border-color);
+        transition: all 0.2s ease;
+    }
+
+    .tech-tag:hover {
+        background-color: var(--link-color);
+        color: var(--bg-color);
+    }
+
+    @media (max-width: 768px) {
+        .projects-page {
+            padding: 1rem;
+        }
+        
+        .project-card {
+            padding: 1.5rem;
+        }
+        
+        .project-links {
+            justify-content: center;
+        }
+        
+        .tech-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
