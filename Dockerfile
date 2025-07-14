@@ -4,7 +4,8 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 RUN mkdir -p /app/staticfiles
 COPY requirements.txt ./
-RUN pip install --upgrade pip && pip install -r requirements.txt
+COPY pip.conf ./
+RUN pip install --upgrade pip && pip install --no-cache-dir --prefer-binary --only-binary=psycopg2 -r requirements.txt
 COPY . .
 RUN echo '#!/bin/bash\n\
 python manage.py migrate\n\

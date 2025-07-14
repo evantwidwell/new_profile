@@ -2,7 +2,5 @@ Django>=4.2
 markdown
 python-frontmatter
 gunicorn
-pg_config
-psycopg2-binary
+psycopg2-binary==2.9.7
 whitenoise
-psycopg-binary
