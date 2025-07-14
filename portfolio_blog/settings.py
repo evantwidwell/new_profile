@@ -6,7 +6,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.railway.app', 'http://localhost:8000']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.railway.app', 
+    'http://localhost:8000',
+    'https://yourdomain.com',  # Replace with your actual domain
+    'https://www.yourdomain.com',  # Replace with your actual domain
+]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Security settings
