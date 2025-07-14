@@ -12,17 +12,6 @@ def post_detail(request, slug):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 
-def testing(request):
-    return render(request, 'blog/testing.html')
-
-
-def testing2(request):
-    return render(request, 'blog/testing2.html')
-
-def testing3(request):
-    return render(request, 'blog/testing3.html')
-
-
 def about(request):
     return render(request, 'blog/about.html')
 
