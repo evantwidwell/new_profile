@@ -21,3 +21,7 @@ def testing2(request):
 
 def testing3(request):
     return render(request, 'blog/testing3.html')
+
+
+def about(request):
+    return render(request, 'blog/about.html')

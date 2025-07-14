@@ -1,0 +1,297 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}About - Evan Twidwell{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <h1>About Me</h1>
+    
+    <section class="intro">
+        <p>
+            Hi, I'm Evan Twidwell, a passionate software engineer dedicated to building innovative solutions 
+            and creating meaningful digital experiences. Welcome to my corner of the web where I share my 
+            journey, projects, and thoughts on technology.
+        </p>
+    </section>
+
+    <section class="skills">
+        <h2>Technical Skills</h2>
+        <div class="skill-category">
+            <h3>Programming Languages</h3>
+            <ul>
+                <li>Python</li>
+                <li>JavaScript</li>
+                <li>TypeScript</li>
+                <li>Java</li>
+                <li>C++</li>
+                <li>SQL</li>
+            </ul>
+        </div>
+
+        <div class="skill-category">
+            <h3>Frameworks & Libraries</h3>
+            <ul>
+                <li>Django</li>
+                <li>React</li>
+                <li>Node.js</li>
+                <li>Express.js</li>
+                <li>FastAPI</li>
+                <li>Bootstrap</li>
+            </ul>
+        </div>
+
+        <div class="skill-category">
+            <h3>Tools & Technologies</h3>
+            <ul>
+                <li>Git & GitHub</li>
+                <li>Docker</li>
+                <li>AWS</li>
+                <li>PostgreSQL</li>
+                <li>MongoDB</li>
+                <li>Redis</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="experience">
+        <h2>Professional Experience</h2>
+        <div class="job">
+            <h3>Software Engineer</h3>
+            <p class="company">Your Company Name</p>
+            <p class="duration">2022 - Present</p>
+            <ul>
+                <li>Developed and maintained web applications using Django and React</li>
+                <li>Collaborated with cross-functional teams to deliver high-quality software solutions</li>
+                <li>Implemented CI/CD pipelines and automated testing procedures</li>
+                <li>Optimized database performance and application scalability</li>
+            </ul>
+        </div>
+
+        <div class="job">
+            <h3>Junior Developer</h3>
+            <p class="company">Previous Company</p>
+            <p class="duration">2021 - 2022</p>
+            <ul>
+                <li>Built responsive web interfaces using HTML, CSS, and JavaScript</li>
+                <li>Participated in code reviews and agile development processes</li>
+                <li>Contributed to open-source projects and internal tools</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="education">
+        <h2>Education</h2>
+        <div class="degree">
+            <h3>Bachelor of Science in Computer Science</h3>
+            <p class="school">University Name</p>
+            <p class="duration">2018 - 2022</p>
+            <p>Relevant Coursework: Data Structures, Algorithms, Software Engineering, Database Systems</p>
+        </div>
+    </section>
+
+    <section class="projects">
+        <h2>Featured Projects</h2>
+        <div class="project">
+            <h3>Portfolio Blog</h3>
+            <p>A Django-based blog application with markdown support, featuring a terminal-inspired design.</p>
+            <p><strong>Technologies:</strong> Django, Python, HTML/CSS, PostgreSQL</p>
+        </div>
+
+        <div class="project">
+            <h3>Task Management App</h3>
+            <p>A full-stack web application for team collaboration and project management.</p>
+            <p><strong>Technologies:</strong> React, Node.js, Express, MongoDB</p>
+        </div>
+    </section>
+
+    <section class="interests">
+        <h2>Interests & Hobbies</h2>
+        <ul>
+            <li>Open source contributions</li>
+            <li>Learning new programming languages and frameworks</li>
+            <li>Tech meetups and conferences</li>
+            <li>Algorithm challenges and competitive programming</li>
+            <li>Reading about emerging technologies</li>
+        </ul>
+    </section>
+
+    <section class="contact">
+        <h2>Let's Connect</h2>
+        <p>
+            I'm always interested in discussing new opportunities, collaborating on projects, 
+            or just chatting about technology. Feel free to reach out!
+        </p>
+        <div class="contact-links">
+            <a href="mailto:your.email@example.com">Email</a>
+            <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+            <a href="https://twitter.com/yourusername" target="_blank">Twitter</a>
+        </div>
+    </section>
+</div>
+
+<style>
+    .about-page {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .about-page section {
+        margin-bottom: 3rem;
+    }
+
+    .about-page h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .about-page h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 0.5rem;
+    }
+
+    .about-page h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+    }
+
+    .intro p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .skills {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .skill-category {
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .skill-category:hover {
+        background-color: var(--card-hover);
+        transform: translateY(-2px);
+    }
+
+    .skill-category ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .skill-category li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--border-color);
+        transition: color 0.2s ease;
+    }
+
+    .skill-category li:last-child {
+        border-bottom: none;
+    }
+
+    .skill-category li:hover {
+        color: var(--link-color);
+    }
+
+    .job, .degree, .project {
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .job:hover, .degree:hover, .project:hover {
+        background-color: var(--card-hover);
+        transform: translateY(-2px);
+    }
+
+    .company, .school {
+        font-weight: 600;
+        color: var(--link-color);
+        margin: 0.5rem 0;
+    }
+
+    .duration {
+        font-style: italic;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+    }
+
+    .contact-links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .contact-links a {
+        padding: 0.75rem 1.5rem;
+        border: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-radius: 6px;
+        font-weight: 500;
+    }
+
+    .contact-links a:hover {
+        background-color: var(--link-color);
+        color: var(--bg-color);
+        border-color: var(--link-color);
+        transform: translateY(-2px);
+    }
+
+    .interests ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        list-style: none;
+        padding: 0;
+    }
+
+    .interests li {
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        text-align: center;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .interests li:hover {
+        background-color: var(--card-hover);
+        transform: translateY(-2px);
+        color: var(--link-color);
+    }
+
+    @media (max-width: 768px) {
+        .skills {
+            grid-template-columns: 1fr;
+        }
+        
+        .contact-links {
+            justify-content: center;
+        }
+        
+        .interests ul {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
