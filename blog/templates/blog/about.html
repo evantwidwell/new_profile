@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load static %}
 
 {% block title %}About - Evan Twidwell{% endblock %}
 
@@ -7,12 +8,19 @@
     <h1>About Me</h1>
     
     <section class="intro">
-        <p>
-            Hi, I'm Evan Twidwell, a data-focused software engineer with deep experience building and maintaining 
-            scalable backend systems for SaaS applications. I'm fluent in Python with hands-on experience across 
-            the data stack—from ingestion and transformation to storage and analytics. Welcome to my corner of the 
-            web where I share my journey, projects, and thoughts on technology.
-        </p>
+        <div class="intro-content">
+            <div class="profile-photo">
+                <img src="{% load static %}{% static 'evan_headshot.jpeg' %}" alt="Evan Twidwell - Senior Backend Engineer" />
+            </div>
+            <div class="intro-text">
+                <p>
+                    Hi, I'm Evan Twidwell, a data-focused software engineer with deep experience building and maintaining 
+                    scalable backend systems for SaaS applications. I'm fluent in Python with hands-on experience across 
+                    the data stack—from ingestion and transformation to storage and analytics. Welcome to my corner of the 
+                    web where I share my journey, projects, and thoughts on technology.
+                </p>
+            </div>
+        </div>
     </section>    <section class="skills">
         <h2>Technical Skills</h2>
         <div class="skill-category">
@@ -240,12 +248,45 @@
         color: var(--text-color);
     }
 
-    .intro p {
+    .intro {
+        margin-bottom: 3rem;
+    }
+
+    .intro-content {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .profile-photo {
+        flex-shrink: 0;
+    }
+
+    .profile-photo img {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .profile-photo img:hover {
+        border-color: var(--link-color);
+        transform: scale(1.05);
+    }
+
+    .intro-text {
+        flex: 1;
+    }
+
+    .intro-text p {
         font-size: 1.1rem;
         line-height: 1.8;
-        text-align: center;
-        max-width: 700px;
-        margin: 0 auto;
+        text-align: left;
+        margin: 0;
     }
 
     .skills {

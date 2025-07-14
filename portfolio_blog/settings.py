@@ -7,10 +7,10 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.railway.app', 
+    'https://*.railway.app',
     'http://localhost:8000',
-    'https://yourdomain.com',  # Replace with your actual domain
-    'https://www.yourdomain.com',  # Replace with your actual domain
+    'https://evantwidwell.com',
+    'https://www.evantwidwell.com',
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
