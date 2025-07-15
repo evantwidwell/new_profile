@@ -1,8 +1,11 @@
 import os
 import duckdb
 import requests
+import time
 from django.core.management.base import BaseCommand
 from django.utils.dateparse import parse_datetime
+from django.db import connection
+from django.db.utils import OperationalError
 from taxi_api.models import TaxiTrip, TaxiZone
 from decimal import Decimal
 from datetime import datetime
@@ -31,7 +34,7 @@ class Command(BaseCommand):
         parser.add_argument(
             '--year',
             type=int,
-            default=2024,
+            default=2023,
             help='Year of data to load (default: 2024)'
         )
         parser.add_argument(
@@ -54,6 +57,9 @@ class Command(BaseCommand):
         get_all = options['get_all']
         batch_size = options['batch_size']
 
+        # Wait for database to be ready
+        self.wait_for_db()
+
         if clear_data:
             self.stdout.write(self.style.WARNING('Clearing existing data...'))
             TaxiTrip.objects.all().delete()
@@ -64,6 +70,29 @@ class Command(BaseCommand):
         
         # Load trip data
         self.load_trip_data(year, month, sample_size, get_all, batch_size)
+
+    def wait_for_db(self):
+        """Wait for database to be available"""
+        max_retries = 30
+        retry_delay = 2
+        
+        for attempt in range(max_retries):
+            try:
+                connection.ensure_connection()
+                self.stdout.write(self.style.SUCCESS('Database connection established.'))
+                return
+            except OperationalError as e:
+                if attempt == max_retries - 1:
+                    self.stdout.write(
+                        self.style.ERROR(f'Database connection failed after {max_retries} attempts: {str(e)}')
+                    )
+                    raise
+                
+                self.stdout.write(
+                    self.style.WARNING(f'Database not ready (attempt {attempt + 1}/{max_retries}). Waiting {retry_delay}s...')
+                )
+                time.sleep(retry_delay)
+                retry_delay = min(retry_delay * 1.5, 10)  # Exponential backoff, max 10s
 
     def load_taxi_zones(self):
         """Load taxi zone lookup data"""
@@ -335,7 +364,7 @@ class Command(BaseCommand):
             return []
 
     def load_trips_to_db_duckdb(self, data, batch_num=None):
-        """Load trips to database from DuckDB results"""
+        """Load trips to database from DuckDB results with retry logic"""
         if batch_num:
             self.stdout.write(f'Loading batch {batch_num} to database...')
         else:
@@ -369,11 +398,9 @@ class Command(BaseCommand):
                 )
                 trips_to_create.append(trip)
                 
-                # Batch insert
+                # Batch insert with retry logic
                 if len(trips_to_create) >= db_batch_size:
-                    TaxiTrip.objects.bulk_create(
-                        trips_to_create, batch_size=db_batch_size
-                    )
+                    self.bulk_create_with_retry(trips_to_create, db_batch_size)
                     loaded_count += len(trips_to_create)
                     trips_to_create = []
                     
@@ -388,9 +415,28 @@ class Command(BaseCommand):
         
         # Insert remaining trips
         if trips_to_create:
-            TaxiTrip.objects.bulk_create(
-                trips_to_create, batch_size=db_batch_size
-            )
+            self.bulk_create_with_retry(trips_to_create, db_batch_size)
             loaded_count += len(trips_to_create)
         
         return loaded_count
+
+    def bulk_create_with_retry(self, trips_to_create, batch_size):
+        """Bulk create with retry logic for database connection issues"""
+        max_retries = 5
+        retry_delay = 2
+        
+        for attempt in range(max_retries):
+            try:
+                TaxiTrip.objects.bulk_create(trips_to_create, batch_size=batch_size)
+                return
+            except OperationalError as e:
+                if 'not yet accepting connections' in str(e) and attempt < max_retries - 1:
+                    self.stdout.write(
+                        self.style.WARNING(f'Database not ready, retrying in {retry_delay}s...')
+                    )
+                    time.sleep(retry_delay)
+                    retry_delay = min(retry_delay * 2, 10)  # Exponential backoff
+                    continue
+                else:
+                    # Re-raise the exception if it's not a connection issue or max retries reached
+                    raise

@@ -22,6 +22,7 @@ help:
 	@echo "  load-sample    - Load sample taxi data (1000 records)"
 	@echo "  load-taxi-data - Load full taxi dataset (interactive)"
 	@echo "  api-test       - Test API endpoints"
+	@echo "  db-check       - Check database connection"
 
 # Docker commands
 build:
@@ -65,7 +66,7 @@ test:
 # Data loading commands
 load-sample:
 	@echo "Loading sample taxi data (1000 records)..."
-	docker-compose run --rm web python manage.py load_taxi_data --sample-size 1000 --year 2014 --month 1
+	docker-compose run --rm web python manage.py load_taxi_data --sample-size 1000 --year 2024 --month 1
 
 load-taxi-data:
 	@echo "Available options:"
@@ -77,7 +78,7 @@ load-taxi-data:
 	@echo ""
 	@echo "Examples:"
 	@echo "  make load-taxi-data ARGS='--sample-size 5000'"
-	@echo "  make load-taxi-data ARGS='--get-all --year 2014 --month 1'"
+	@echo "  make load-taxi-data ARGS='--get-all --year 2024 --month 1'"
 	@echo "  make load-taxi-data ARGS='--clear-data --sample-size 10000'"
 	@echo ""
 	@read -p "Enter arguments (or press Enter for default 1000 sample): " args; \
@@ -105,6 +106,10 @@ api-test:
 	@curl -s http://localhost:8000/api/trips/summary/ | head -c 200 || echo "Summary endpoint not responding"
 
 # Database commands
+db-check:
+	@echo "Checking database connection..."
+	docker-compose run --rm web python manage.py check --database default
+
 db-reset:
 	@echo "WARNING: This will delete all data!"
 	@read -p "Are you sure? (y/N): " confirm; \
