@@ -4,6 +4,8 @@ import tempfile
 import os
 from typing import Dict, List
 from pylru import lrudecorator
+import subprocess
+import tempfile
 
 
 class TaxiDataService:
@@ -27,8 +29,7 @@ class TaxiDataService:
                                   taxi_type: str = 'yellow') -> str:
         """Download parquet file via host machine to avoid Docker networking issues"""
         url = self.get_parquet_url(year, month, taxi_type)
-        import subprocess
-        import tempfile
+
         
         # Use curl from host machine via docker exec
         tmp_path = f"/tmp/taxi_data_{year}_{month:02d}.parquet"
