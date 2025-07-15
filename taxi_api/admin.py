@@ -1,3 +1,1 @@
-from django.contrib import admin
-
-# Register your models here.
+# No PostgreSQL admin interfaces needed - using DuckDB direct parquet querying

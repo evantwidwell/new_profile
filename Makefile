@@ -19,9 +19,6 @@ help:
 	@echo "  collectstatic  - Collect static files"
 	@echo "  test           - Run tests"
 	@echo "  clean          - Clean up containers and volumes"
-	@echo "  load-sample    - Load sample taxi data (1000 records)"
-	@echo "  load-taxi-data - Load full taxi dataset (interactive)"
-	@echo "  api-test       - Test API endpoints"
 	@echo "  api-test-duckdb - Test DuckDB-based endpoints"
 	@echo "  db-check       - Check database connection"
 	@echo "  db-stats       - Show database size and statistics"
@@ -68,56 +65,7 @@ collectstatic:
 test:
 	docker-compose run --rm web python manage.py test
 
-# Data loading commands
-load-sample:
-	@echo "Loading sample taxi data (1000 records)..."
-	docker-compose run --rm web python manage.py load_taxi_data --sample-size 1000 --year 2024 --month 1
-
-load-taxi-data:
-	@echo "Available options:"
-	@echo "  Sample sizes: --sample-size <number>"
-	@echo "  Full dataset: --get-all"
-	@echo "  Specific year/month: --year <year> --month <month>"
-	@echo "  Batch size: --batch-size <size> (default: 10000)"
-	@echo "  Clear existing data: --clear-data"
-	@echo ""
-	@echo "Examples:"
-	@echo "  make load-taxi-data ARGS='--sample-size 5000'"
-	@echo "  make load-taxi-data ARGS='--get-all --year 2024 --month 1'"
-	@echo "  make load-taxi-data ARGS='--clear-data --sample-size 10000'"
-	@echo ""
-	@read -p "Enter arguments (or press Enter for default 1000 sample): " args; \
-	if [ -z "$$args" ]; then \
-		args="--sample-size 1000"; \
-	fi; \
-	docker-compose run --rm web python manage.py load_taxi_data $$args
-
 # API testing
-api-test:
-	@echo "Testing API endpoints..."
-	@echo "Make sure the application is running (make up) first"
-	@echo ""
-	@echo "Testing PostgreSQL-based endpoints:"
-	@echo "  GET  /api/trips/          - List trips"
-	@echo "  GET  /api/trips/summary/  - Trip summary"
-	@echo "  GET  /api/trips/heatmap/  - Heatmap data"
-	@echo "  GET  /api/trips/revenue/  - Revenue analytics"
-	@echo "  GET  /api/trips/stats/    - Trip statistics"
-	@echo "  GET  /api/zones/          - List zones"
-	@echo ""
-	@echo "Testing DuckDB-based endpoints (no database storage!):"
-	@echo "  GET  /api/taxi-data/status/   - Available data"
-	@echo "  GET  /api/taxi-data/summary/  - Trip summary"
-	@echo "  GET  /api/taxi-data/heatmap/  - Heatmap data"
-	@echo "  GET  /api/taxi-data/revenue/  - Revenue analytics"
-	@echo "  GET  /api/taxi-data/stats/    - Trip statistics"
-	@echo "  GET  /api/taxi-data/trips/    - Sample trips"
-	@echo ""
-	@echo "Testing basic endpoints..."
-	@curl -s http://localhost:8000/api/trips/ | head -c 200 || echo "PostgreSQL API not responding"
-	@echo ""
-	@curl -s http://localhost:8000/api/taxi-data/status/ | head -c 200 || echo "DuckDB API not responding"
-
 api-test-duckdb:
 	@echo "Testing DuckDB-based API endpoints..."
 	@echo "These query parquet files directly - no database storage needed!"
@@ -189,7 +137,7 @@ db-reset:
 	fi
 
 # Development commands
-dev-setup: build migrate load-sample
+dev-setup: build migrate
 	@echo "Development environment setup complete!"
 	@echo "Run 'make up' to start the application"
 

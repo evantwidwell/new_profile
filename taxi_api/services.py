@@ -1,6 +1,5 @@
 import duckdb
 from typing import Dict, List
-from pylru import lrudecorator
 
 
 class TaxiDataService:
@@ -20,7 +19,6 @@ class TaxiDataService:
         return (f"{self.base_url}/{taxi_type}_tripdata_"
                 f"{year}-{month:02d}.parquet")
     
-    @lrudecorator(maxsize=100)
     def create_temp_table(self, year: int, month: int,
                           taxi_type: str = 'yellow') -> str:
         """Create a temporary table from parquet file"""

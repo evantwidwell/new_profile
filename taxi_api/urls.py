@@ -1,19 +1,16 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from . import views
+from django.urls import path
 from .duckdb_views import (
     TripSummaryView, HeatmapDataView, RevenueAnalyticsView,
     TripStatsView, SampleTripsView, DataStatusView
 )
-
-router = DefaultRouter()
-router.register(r'trips', views.TaxiTripViewSet)
-router.register(r'zones', views.TaxiZoneViewSet)
+from .test_views import SimpleTestView, TaxiTestView
 
 app_name = 'taxi_api'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    # Test endpoints for debugging
+    path('test/', SimpleTestView.as_view(), name='simple-test'),
+    path('test/taxi/', TaxiTestView.as_view(), name='taxi-test'),
     
     # DuckDB-based endpoints (no database storage needed!)
     path('taxi-data/summary/', TripSummaryView.as_view(),
