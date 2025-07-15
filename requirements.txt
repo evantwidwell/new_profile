@@ -1,6 +1,12 @@
 Django>=4.2
+djangorestframework
 markdown
 python-frontmatter
 gunicorn
 psycopg2-binary==2.9.7
 whitenoise
+duckdb
+pandas
+requests
+pyarrow
+duckdb
