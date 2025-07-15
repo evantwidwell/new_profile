@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'blog',
     'taxi_api',
     # 'pages',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'portfolio_blog.middleware.WWWRedirectMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -90,3 +92,13 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',  # Vite dev server
+    'http://127.0.0.1:5173',
+    'http://localhost:5174',  # Alternative Vite port
+    'http://127.0.0.1:5174',
+]
+
+CORS_ALLOW_CREDENTIALS = True
