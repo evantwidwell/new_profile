@@ -59,6 +59,8 @@ function App() {
     setLoading(true);
     setError(null);
     
+    console.log(`Loading data for ${selectedYear}-${selectedMonth}`);
+    
     try {
       const [summary, stats, analytics, heatmap] = await Promise.all([
         taxiApiService.getTripSummary(selectedYear, selectedMonth),
@@ -67,13 +69,16 @@ function App() {
         taxiApiService.getHeatmapData(selectedYear, selectedMonth)
       ]);
 
+      console.log('Loaded heatmap data:', heatmap);
+      console.log('Heatmap data length:', heatmap.data.length);
+
       setTripSummary(summary.data);
       setTripStats(stats.data);
       setRevenueAnalytics(analytics.data);
       setHeatmapData(heatmap.data);
     } catch (err) {
-      setError('Failed to load taxi data');
       console.error('Error loading data:', err);
+      setError('Failed to load taxi data');
     } finally {
       setLoading(false);
     }

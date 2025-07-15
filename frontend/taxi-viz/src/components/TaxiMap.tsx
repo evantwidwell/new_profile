@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
-import { LatLngBounds } from 'leaflet';
+import React from 'react';
+import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
 import type { HeatmapData } from '../services/api';
-import { getZoneById, NYC_BOUNDS } from '../data/taxiZones';
+import { getZoneById } from '../data/taxiZones';
 import 'leaflet/dist/leaflet.css';
 
 interface TaxiMapProps {
@@ -11,92 +10,71 @@ interface TaxiMapProps {
   onZoneSelect: (zoneId: number) => void;
 }
 
-const MapBounds: React.FC<{ bounds: LatLngBounds }> = ({ bounds }) => {
-  const map = useMap();
-  
-  useEffect(() => {
-    map.fitBounds(bounds);
-  }, [map, bounds]);
-  
-  return null;
-};
-
 const TaxiMap: React.FC<TaxiMapProps> = ({ 
   heatmapData, 
   selectedZone, 
   onZoneSelect 
 }) => {
-  // Create bounds for NYC
-  const bounds = new LatLngBounds(
-    [NYC_BOUNDS.bounds.south, NYC_BOUNDS.bounds.west],
-    [NYC_BOUNDS.bounds.north, NYC_BOUNDS.bounds.east]
-  );
-
-  // Get max trip count for scaling circle sizes
-  const maxTripCount = Math.max(...heatmapData.map(d => d.trip_count));
-  const minTripCount = Math.min(...heatmapData.map(d => d.trip_count));
-
-  // Scale circle radius based on trip count
-  const getCircleRadius = (tripCount: number): number => {
-    if (maxTripCount === minTripCount) return 8;
-    const normalized = (tripCount - minTripCount) / (maxTripCount - minTripCount);
-    return Math.max(4, Math.min(20, 4 + normalized * 16));
-  };
-
-  // Get color based on average fare
-  const getCircleColor = (avgFare: number): string => {
-    if (avgFare < 10) return '#3B82F6'; // Blue for low fare
-    if (avgFare < 20) return '#10B981'; // Green for medium fare
-    if (avgFare < 30) return '#F59E0B'; // Yellow for high fare
-    return '#EF4444'; // Red for very high fare
-  };
-
-  // Get opacity based on selection
-  const getCircleOpacity = (zoneId: number): number => {
-    return selectedZone === undefined || selectedZone === zoneId ? 0.8 : 0.3;
-  };
-
+  // Debug logging
+  console.log('TaxiMap received heatmapData:', heatmapData);
+  console.log('Number of data points:', heatmapData.length);
+  console.log('Selected zone:', selectedZone);
+  
+  // Simple map with fixed height and basic styling
   return (
-    <div className="w-full h-full">
+    <div style={{ height: '600px', width: '100%', position: 'relative' }}>
       <MapContainer
-        center={[NYC_BOUNDS.center.lat, NYC_BOUNDS.center.lng]}
-        zoom={NYC_BOUNDS.zoom}
-        className="w-full h-full"
+        center={[40.7589, -73.9851]}
+        zoom={11}
+        style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         
-        <MapBounds bounds={bounds} />
+        {/* Test marker to verify map is working */}
+        <CircleMarker
+          center={[40.7589, -73.9851]}
+          radius={10}
+          color="red"
+          fillColor="red"
+          fillOpacity={0.8}
+        >
+          <Popup>Test marker - Manhattan center</Popup>
+        </CircleMarker>
         
+        {/* Render actual data markers */}
         {heatmapData.map((data) => {
           const zone = getZoneById(data.pickup_location_id);
-          if (!zone) return null;
+          console.log(`Processing zone ${data.pickup_location_id}:`, zone);
+          
+          if (!zone) {
+            console.warn(`Zone ${data.pickup_location_id} not found`);
+            return null;
+          }
+          
+          console.log(`Rendering CircleMarker for zone ${data.pickup_location_id} at [${zone.latitude}, ${zone.longitude}]`);
           
           return (
             <CircleMarker
               key={data.pickup_location_id}
               center={[zone.latitude, zone.longitude]}
-              radius={getCircleRadius(data.trip_count)}
-              color={getCircleColor(data.avg_fare)}
-              fillColor={getCircleColor(data.avg_fare)}
-              fillOpacity={getCircleOpacity(data.pickup_location_id)}
-              stroke={selectedZone === data.pickup_location_id}
-              weight={selectedZone === data.pickup_location_id ? 3 : 1}
+              radius={Math.max(5, Math.min(20, data.trip_count / 10000))}
+              color={data.avg_fare > 20 ? 'red' : 'blue'}
+              fillColor={data.avg_fare > 20 ? 'red' : 'blue'}
+              fillOpacity={0.6}
               eventHandlers={{
                 click: () => onZoneSelect(data.pickup_location_id),
               }}
             >
               <Popup>
-                <div className="p-2 text-sm">
-                  <h3 className="font-bold text-lg mb-2">{zone.zone}</h3>
-                  <p className="text-gray-600 mb-2">{zone.borough}</p>
-                  <div className="space-y-1">
-                    <p><strong>Trips:</strong> {data.trip_count.toLocaleString()}</p>
-                    <p><strong>Avg Fare:</strong> ${data.avg_fare.toFixed(2)}</p>
-                    <p><strong>Avg Distance:</strong> {data.avg_distance.toFixed(2)} mi</p>
-                  </div>
+                <div>
+                  <h3>{zone.zone}</h3>
+                  <p>{zone.borough}</p>
+                  <p><strong>Trips:</strong> {data.trip_count.toLocaleString()}</p>
+                  <p><strong>Avg Fare:</strong> ${data.avg_fare.toFixed(2)}</p>
+                  <p><strong>Avg Distance:</strong> ${data.avg_distance.toFixed(2)} mi</p>
                 </div>
               </Popup>
             </CircleMarker>
@@ -105,28 +83,56 @@ const TaxiMap: React.FC<TaxiMapProps> = ({
       </MapContainer>
       
       {/* Legend */}
-      <div className="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-lg z-[1000]">
-        <h4 className="font-semibold mb-2">Trip Volume & Fare</h4>
-        <div className="space-y-1 text-sm">
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 rounded-full bg-blue-500"></div>
-            <span>Low Fare (&lt;$10)</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 rounded-full bg-green-500"></div>
-            <span>Medium Fare ($10-20)</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 rounded-full bg-yellow-500"></div>
-            <span>High Fare ($20-30)</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 rounded-full bg-red-500"></div>
-            <span>Very High Fare (&gt;$30)</span>
+      <div style={{ 
+        position: 'absolute', 
+        bottom: '10px', 
+        left: '10px', 
+        background: 'white', 
+        padding: '12px', 
+        borderRadius: '8px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+        zIndex: 1000,
+        minWidth: '200px',
+        color: '#333'
+      }}>
+        <h4 style={{ margin: '0 0 12px 0', fontWeight: 'bold', fontSize: '14px', color: '#333' }}>NYC Taxi Trip Data</h4>
+        
+        <div style={{ marginBottom: '12px' }}>
+          <div style={{ fontSize: '12px', fontWeight: 'bold', marginBottom: '6px', color: '#333' }}>Average Fare Range:</div>
+          <div style={{ fontSize: '11px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
+              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'blue', marginRight: '8px' }}></div>
+              <span style={{ color: '#333' }}>Low Fare (&lt; $20)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'red', marginRight: '8px' }}></div>
+              <span style={{ color: '#333' }}>High Fare (≥ $20)</span>
+            </div>
           </div>
         </div>
-        <div className="mt-2 pt-2 border-t">
-          <p className="text-xs text-gray-600">Circle size = Trip volume</p>
+        
+        <div style={{ marginBottom: '8px' }}>
+          <div style={{ fontSize: '12px', fontWeight: 'bold', marginBottom: '6px', color: '#333' }}>Circle Size:</div>
+          <div style={{ fontSize: '11px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3px' }}>
+              <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#666', marginRight: '8px' }}></div>
+              <span style={{ color: '#333' }}>Small: &lt;50K trips</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3px' }}>
+              <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#666', marginRight: '8px' }}></div>
+              <span style={{ color: '#333' }}>Medium: 50K-150K trips</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#666', marginRight: '8px' }}></div>
+              <span style={{ color: '#333' }}>Large: &gt;150K trips</span>
+            </div>
+          </div>
+        </div>
+        
+        <div style={{ paddingTop: '8px', borderTop: '1px solid #eee' }}>
+          <p style={{ margin: 0, fontSize: '10px', color: '#666', fontStyle: 'italic' }}>
+            Click markers for details • Data from NYC TLC
+          </p>
         </div>
       </div>
     </div>

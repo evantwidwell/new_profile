@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map Test</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 500px; width: 100%; }
+        .debug { margin: 10px 0; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Simple Map Test</h1>
+    <div class="debug">
+        <button onclick="testAPI()">Test API</button>
+        <button onclick="testMap()">Test Map</button>
+        <div id="api-result"></div>
+    </div>
+    
+    <div id="map"></div>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        let map;
+        let apiData = null;
+        
+        // NYC taxi zones (subset)
+        const zones = {
+            161: { lat: 40.7235, lng: -74.0033, name: 'SoHo' },
+            230: { lat: 40.7571, lng: -74.0011, name: 'West Chelsea/Hudson Yards' },
+            237: { lat: 40.7321, lng: -73.9778, name: 'Stuyvesant Town' },
+            132: { lat: 40.7262, lng: -73.9127, name: 'Maspeth' },
+            236: { lat: 40.5572, lng: -74.1460, name: 'Great Kills' },
+            186: { lat: 40.7407, lng: -73.9907, name: 'Flatiron' }
+        };
+        
+        function initMap() {
+            map = L.map('map').setView([40.7589, -73.9851], 11);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+        }
+        
+        async function testAPI() {
+            try {
+                console.log('Testing API...');
+                const response = await fetch('http://localhost:8000/api/taxi-data/heatmap/?year=2024&month=12&limit=5');
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                apiData = data;
+                document.getElementById('api-result').innerHTML = 
+                    '<strong>API Success!</strong> Got ' + data.data.length + ' data points<br>' +
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                
+                // Add markers to map
+                if (map) {
+                    data.data.forEach(item => {
+                        const zone = zones[item.pickup_location_id];
+                        if (zone) {
+                            const marker = L.circleMarker([zone.lat, zone.lng], {
+                                radius: Math.max(5, Math.min(20, item.trip_count / 10000)),
+                                color: item.avg_fare > 20 ? 'red' : 'blue',
+                                fillColor: item.avg_fare > 20 ? 'red' : 'blue',
+                                fillOpacity: 0.6
+                            }).addTo(map);
+                            
+                            marker.bindPopup(`
+                                <b>${zone.name}</b><br>
+                                Trips: ${item.trip_count.toLocaleString()}<br>
+                                Avg Fare: $${item.avg_fare.toFixed(2)}<br>
+                                Avg Distance: ${item.avg_distance.toFixed(2)} mi
+                            `);
+                        }
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('api-result').innerHTML = 
+                    '<strong>API Error:</strong> ' + error.message;
+            }
+        }
+        
+        function testMap() {
+            console.log('Testing map...');
+            if (!map) {
+                initMap();
+            }
+            
+            // Add test marker
+            const testMarker = L.circleMarker([40.7589, -73.9851], {
+                radius: 10,
+                color: 'green',
+                fillColor: 'green',
+                fillOpacity: 0.8
+            }).addTo(map);
+            
+            testMarker.bindPopup('Test marker in Manhattan');
+        }
+        
+        // Initialize map on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+        });
+    </script>
+</body>
+</html>
