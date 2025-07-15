@@ -32,10 +32,34 @@ def taxi_viz(request):
         with open(index_path, 'r') as f:
             content = f.read()
         
-        # Fix asset paths to use Django static files
-        content = content.replace('/assets/', '/static/taxi-viz/assets/')
-        content = content.replace('/vite.svg', '/static/taxi-viz/vite.svg')
+        # Extract the assets from the React build
+        import re
+        css_pattern = r'<link rel="stylesheet"[^>]*href="([^"]*)"'
+        js_pattern = r'<script[^>]*src="([^"]*)"'
         
-        return HttpResponse(content, content_type='text/html')
+        css_match = re.search(css_pattern, content)
+        js_match = re.search(js_pattern, content)
+        
+        react_assets = ""
+        if css_match:
+            css_path = css_match.group(1).replace(
+                '/assets/', '/static/taxi-viz/assets/'
+            )
+            react_assets += (
+                f'<link rel="stylesheet" crossorigin href="{css_path}">\n'
+            )
+        
+        if js_match:
+            js_path = js_match.group(1).replace(
+                '/assets/', '/static/taxi-viz/assets/'
+            )
+            react_assets += (
+                f'<script type="module" crossorigin '
+                f'src="{js_path}"></script>\n'
+            )
+        
+        return render(request, 'blog/taxi_viz.html', {
+            'react_assets': react_assets
+        })
     else:
         return HttpResponse("Taxi visualization app not found", status=404)

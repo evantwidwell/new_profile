@@ -106,10 +106,10 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+    <div className="min-h-screen bg-gray-100 w-full">
+      <header className="bg-white shadow-sm w-full">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6 w-full">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">NYC Taxi Data Visualization</h1>
               <p className="mt-1 text-sm text-gray-600">
@@ -142,7 +142,7 @@ function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-8">
         {/* Date Picker */}
         <div className="mb-6">
           <DatePicker
@@ -181,13 +181,15 @@ function App() {
 
         {/* Content */}
         {activeTab === 'map' && (
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-            <div className="h-96 lg:h-[600px]">
-              <TaxiMap
-                heatmapData={heatmapData}
-                selectedZone={selectedZone}
-                onZoneSelect={handleZoneSelect}
-              />
+          <div className="w-full">
+            <div className="bg-white rounded-lg shadow-sm overflow-hidden max-w-5xl mx-auto">
+              <div className="h-96 lg:h-[600px]">
+                <TaxiMap
+                  heatmapData={heatmapData}
+                  selectedZone={selectedZone}
+                  onZoneSelect={handleZoneSelect}
+                />
+              </div>
             </div>
           </div>
         )}
@@ -204,8 +206,8 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <footer className="bg-white border-t w-full">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-4">
           <p className="text-center text-sm text-gray-600">
             Data powered by NYC Taxi & Limousine Commission • Built with React & DuckDB
           </p>

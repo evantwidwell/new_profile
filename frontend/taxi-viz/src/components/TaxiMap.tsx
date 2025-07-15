@@ -22,7 +22,7 @@ const TaxiMap: React.FC<TaxiMapProps> = ({
   
   // Simple map with fixed height and basic styling
   return (
-    <div style={{ height: '600px', width: '100%', position: 'relative' }}>
+    <div style={{ height: '70vh', minHeight: '500px', width: '100%', position: 'relative' }}>
       <MapContainer
         center={[40.7589, -73.9851]}
         zoom={11}
