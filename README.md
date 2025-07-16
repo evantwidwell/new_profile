@@ -1,6 +1,6 @@
 # New profile page
 
-This page is hosted at [evantwidwell.com](evantwidwell.com)
+This page is hosted at [evantwidwell.com](http://evantwidwell.com)
 
 # This is my current profile and portfolio site.
 It has a few features:
