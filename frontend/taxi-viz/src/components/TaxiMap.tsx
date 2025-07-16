@@ -74,7 +74,7 @@ const TaxiMap: React.FC<TaxiMapProps> = ({
                   <p>{zone.borough}</p>
                   <p><strong>Trips:</strong> {data.trip_count.toLocaleString()}</p>
                   <p><strong>Avg Fare:</strong> ${data.avg_fare.toFixed(2)}</p>
-                  <p><strong>Avg Distance:</strong> ${data.avg_distance.toFixed(2)} mi</p>
+                  <p><strong>Avg Distance:</strong> {data.avg_distance.toFixed(2)} mi</p>
                 </div>
               </Popup>
             </CircleMarker>
