@@ -1,6 +1,8 @@
 # New profile page
 
-# This is my current profile page hosted at evantwidwell.com.
+This page is hosted at [evantwidwell.com](evantwidwell.com)
+
+# This is my current profile and portfolio site.
 It has a few features:
 1. A markdown based "CMS". Basically It acccepts a copied markdown file through the django admin to create posts.
 2. A data engineering portfolio project. I used the publically available NYC taxi data to build a duckdb based API using django rest framework. IT's just a client, and uses cached parquet files to return results
