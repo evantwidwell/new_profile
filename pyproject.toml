@@ -1,0 +1,36 @@
+[project]
+name = "new_profile"
+description = "NYC Taxi Data Visualization and Portfolio Blog"
+version = "0.1.0"
+requires-python = ">=3.10"
+
+dependencies = [
+  "django",
+  "djangorestframework",
+  "django-cors-headers",
+  "gunicorn",
+  "duckdb",
+  "requests",
+  "psycopg2-binary",
+  "markdown",
+  "whitenoise",
+  "pylru",
+  "python-frontmatter",
+  "pyyaml",
+  "numpy",
+  "pandas",
+  "pyarrow",
+  "drf-yasg",
+  "ruff",
+  "pre-commit"
+]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "C90"]
+ignore = []
+
+[tool.pre-commit]
+# pre-commit config will be in .pre-commit-config.yaml

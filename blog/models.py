@@ -1,5 +1,6 @@
-from django.db import models
 import markdown
+from django.db import models
+
 
 class Post(models.Model):
     slug = models.SlugField(unique=True)
@@ -13,4 +14,4 @@ class Post(models.Model):
         return self.title
 
     def rendered_content(self):
-        return markdown.markdown(self.content, extensions=['extra', 'codehilite'])
+        return markdown.markdown(self.content, extensions=["extra", "codehilite"])
