@@ -5,10 +5,9 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Change the working directory to the `app` directory
 WORKDIR /app
 
-# Install dependencies
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv pip install --system -r pyproject.toml
+# Copy requirements and install dependencies
+COPY pyproject.toml .
+RUN uv pip install --system -r pyproject.toml
 
 # Copy the project into the intermediate image
 COPY . /app
